@@ -1,88 +1,112 @@
-import React from 'react'
-import Head from 'next/head'
-import Nav from '../components/nav'
+import React, { useState } from "react";
+import Head from "next/head";
+import {
+  Button,
+  FormFeedback,
+  Form,
+  FormGroup,
+  Label,
+  Input
+} from "reactstrap";
+import * as emailjs from 'emailjs-com'
 
-const Home = () => (
-  <div>
-    <Head>
-      <title>Home</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
+const Home = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
 
-    <Nav />
+  const submit = e => {
+    e.preventDefault();
 
-    <div className="hero">
-      <h1 className="title">Welcome to Next.js!</h1>
-      <p className="description">
-        To get started, edit <code>pages/index.js</code> and save to reload.
-      </p>
+    let templateParams = {
+      from_name: email,
+      to_name: name,
+      subject: subject,
+      message_html: message,
+    }
 
-      <div className="row">
-        <a href="https://nextjs.org/docs" className="card">
-          <h3>Documentation &rarr;</h3>
-          <p>Learn more about Next.js in the documentation.</p>
-        </a>
-        <a href="https://nextjs.org/learn" className="card">
-          <h3>Next.js Learn &rarr;</h3>
-          <p>Learn about Next.js by following an interactive tutorial!</p>
-        </a>
-        <a
-          href="https://github.com/zeit/next.js/tree/master/examples"
-          className="card"
-        >
-          <h3>Examples &rarr;</h3>
-          <p>Find other example boilerplates on the Next.js GitHub.</p>
-        </a>
-      </div>
+    emailjs.send(
+      'gmail',
+      'template_Ye0UPNLe',
+       templateParams,
+      'user_TQsung4qd1pK7KNcRAfdq'
+    )
+
+    resetForm()
+  }
+
+  const resetForm = () => {
+    setEmail('');
+    setName('');
+    setSubject('');
+    setMessage('');
+  }
+
+  return (
+    <div className="m-3">
+      <Head>
+        <title>Home</title>
+        <link rel="icon" href="/favicon.ico" />
+        <link
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous"
+        ></link>
+      </Head>
+
+      <h1 className="p-heading1">Get in Touch</h1>
+      <Form onSubmit={submit} className="w-75 p-3">
+        <FormGroup>
+          <Label className="text-muted">Email address</Label>
+          <Input
+            type="email"
+            name="email"
+            value={email}
+            className="text-primary"
+            onChange={e => setEmail(e.target.value)}
+            placeholder="Enter email"
+          />
+        </FormGroup>
+        <FormGroup controlId="formBasicName">
+          <Label className="text-muted">Name</Label>
+          <Input
+            type="text"
+            name="name"
+            value={name}
+            className="text-primary"
+            onChange={e => setName(e.target.value)}
+            placeholder="Name"
+          />
+        </FormGroup>
+        <FormGroup controlId="formBasicSubject">
+          <Label className="text-muted">Subject</Label>
+          <Input
+            type="text"
+            name="subject"
+            className="text-primary"
+            value={subject}
+            onChange={e => setSubject(e.target.value)}
+            placeholder="Subject"
+          />
+        </FormGroup>
+        <FormGroup controlId="formBasicMessage">
+          <Label className="text-muted">Message</Label>
+          <Input
+            type="textarea"
+            name="message"
+            className="text-primary"
+            value={message}
+            onChange={e => setMessage(e.target.value)}
+          />
+        </FormGroup>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
     </div>
+  );
+};
 
-    <style jsx>{`
-      .hero {
-        width: 100%;
-        color: #333;
-      }
-      .title {
-        margin: 0;
-        width: 100%;
-        padding-top: 80px;
-        line-height: 1.15;
-        font-size: 48px;
-      }
-      .title,
-      .description {
-        text-align: center;
-      }
-      .row {
-        max-width: 880px;
-        margin: 80px auto 40px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-      }
-      .card {
-        padding: 18px 18px 24px;
-        width: 220px;
-        text-align: left;
-        text-decoration: none;
-        color: #434343;
-        border: 1px solid #9b9b9b;
-      }
-      .card:hover {
-        border-color: #067df7;
-      }
-      .card h3 {
-        margin: 0;
-        color: #067df7;
-        font-size: 18px;
-      }
-      .card p {
-        margin: 0;
-        padding: 12px 0 0;
-        font-size: 13px;
-        color: #333;
-      }
-    `}</style>
-  </div>
-)
-
-export default Home
+export default Home;

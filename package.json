@@ -10,6 +10,10 @@
   "dependencies": {
     "next": "9.2.1",
     "react": "16.12.0",
-    "react-dom": "16.12.0"
+    "react-dom": "16.12.0",
+    "reactstrap": "^8.4.1"
+  },
+  "devDependencies": {
+    "emailjs-com": "^2.4.1"
   }
 }
